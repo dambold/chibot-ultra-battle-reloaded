@@ -11,7 +11,7 @@
         U L T R A   B A T T L E
 ```
 
-> *It's the year 1999. You're on AOL Instant Messenger. Someone just typed `/scream` and Banshee dealt 219 damage to Barney the Dinosaur. This is peak human achievement.*
+> *It's the year 1999. You're on AOL Instant Messenger. Someone just typed `/mta` and Sailor Moon dealt 219 damage to Barney the Dinosaur. This is peak human achievement.*
 
 ---
 
@@ -126,7 +126,7 @@ Playlist includes Final Fantasy Tactics battle themes, Chrono Trigger (Lavos, Ma
 
 ## 📡 Origin Story
 
-Somewhere around 1998-1999, a teenager built a battle bot in Visual Basic 6 that lived in AOL chat rooms. You'd type `/moon` and Sailor Moon would fire the Moon Spiral Heart Attack. You'd type `/kamehameha` and Goku would obliterate whoever had the misfortune of being in the room.
+Somewhere around 1998-1999, a brilliant AOL users named Kamek built a battle bot in Visual Basic 6 that lived in AOL chat rooms. You'd type `/moon` and Sailor Moon would fire the Moon Spiral Heart Attack. You'd type `/kamehameha` and Goku would obliterate whoever had the misfortune of being in the room.
 
 The original `.ch2` character files still exist. This project reads from them.
 
