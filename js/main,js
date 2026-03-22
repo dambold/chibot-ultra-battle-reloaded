@@ -1,0 +1,16 @@
+// ══════════════════════════════════════════════
+//   CHIBOT ULTRA BATTLE — main.js
+//   Entry point — boots the app
+// ══════════════════════════════════════════════
+
+import { buildSetupUI } from './ui/setup.js';
+import { initMidiPlayer, stopMidi } from './ui/midi-player.js';
+
+// Export stopMidi so setup.js can call it on return to setup
+export { stopMidi };
+
+// Boot when DOM is ready
+document.addEventListener('DOMContentLoaded', () => {
+  buildSetupUI();
+  initMidiPlayer();
+});
