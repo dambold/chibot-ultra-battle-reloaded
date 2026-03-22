@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ChiBot Ultra Battle</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+<!-- ══ SETUP SCREEN ══════════════════════════════════════════════════ -->
+<div id="setup-screen">
+  <div id="setup-inner">
+    <div class="setup-title">Chi<span>Bot</span> Ultra</div>
+    <div class="setup-title" style="margin-top:-4px;">Battle</div>
+    <div class="setup-sub">◈ AOL CHAT ROOM BATTLE ENGINE ◈ RELOADED ◈</div>
+
+    <!-- MODE SELECT -->
+    <div id="mode-select">
+      <button class="mode-btn active" id="mode-free-btn">⚔ FREE BATTLE</button>
+      <button class="mode-btn" id="mode-team-btn">★ TEAM BATTLE</button>
+    </div>
+
+    <!-- YOUR FIGHTER -->
+    <div class="setup-section">
+      <div class="setup-section-header">◈ Your Fighter</div>
+      <div class="setup-section-body">
+        <div class="setup-row">
+          <label>Screen Name:</label>
+          <input type="text" id="player-name" value="Warrior" maxlength="20" placeholder="Your AOL screen name">
+        </div>
+        <div class="setup-row" style="display:block;">
+          <label style="display:block;margin-bottom:6px;">Choose Character:</label>
+          <!-- Series filter tabs -->
+          <div id="series-tabs"></div>
+          <!-- Series banner -->
+          <div id="series-banner">
+            <span id="series-banner-label">ALL FIGHTERS</span>
+            <span id="series-banner-tagline">Every fighter. Total chaos.</span>
+          </div>
+          <!-- Character grid -->
+          <div class="char-grid" id="char-grid"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- FREE BATTLE: AI Opponents -->
+    <div id="free-battle-section" class="setup-section">
+      <div class="setup-section-header">◈ AI Opponents</div>
+      <div class="setup-section-body">
+        <div id="ai-slots"></div>
+      </div>
+    </div>
+
+    <!-- TEAM BATTLE -->
+    <div id="team-battle-section" style="display:none;">
+      <div class="setup-section">
+        <div class="setup-section-header">◈ Your Allies <span style="font-size:0.6rem;color:var(--text2);">(Heroes — up to 4)</span></div>
+        <div class="setup-section-body">
+          <div id="ally-slots"></div>
+        </div>
+      </div>
+      <div class="setup-section">
+        <div class="setup-section-header">◈ Enemy Team <span style="font-size:0.6rem;color:var(--text2);">(Villains — up to 5)</span></div>
+        <div class="setup-section-body">
+          <div id="enemy-slots"></div>
+          <div id="boss-mode-panel" style="display:none;margin-top:10px;padding:8px;border:1px solid var(--magenta);background:#1a0a1a;">
+            <div style="font-size:0.7rem;color:var(--magenta);margin-bottom:6px;">★ BOSS MODE — Single enemy detected!</div>
+            <div class="setup-row">
+              <label>Difficulty:</label>
+              <select id="boss-difficulty">
+                <option value="2">Easy (2x HP)</option>
+                <option value="3" selected>Normal (3x HP)</option>
+                <option value="5">Hard (5x HP)</option>
+                <option value="8">Nightmare (8x HP)</option>
+              </select>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ARENA -->
+    <div class="setup-section">
+      <div class="setup-section-header">◈ Arena Selection</div>
+      <div class="setup-section-body">
+        <div class="arena-grid" id="arena-grid"></div>
+      </div>
+    </div>
+
+    <button id="start-battle-btn">⚔ BEGIN BATTLE ⚔</button>
+  </div>
+</div>
+
+<!-- ══ BATTLE SCREEN ══════════════════════════════════════════════════ -->
+<div id="battle-screen" style="display:none;">
+
+  <!-- GAME OVER OVERLAY -->
+  <div id="gameover-overlay">
+    <div id="gameover-title">YOU WIN!</div>
+    <div id="gameover-sub">The battle is over.</div>
+    <div style="display:flex;gap:12px;margin-top:10px;">
+      <button class="gameover-btn" id="gameover-new-btn">↩ NEW BATTLE</button>
+      <button class="gameover-btn" id="gameover-review-btn">📋 REVIEW LOG</button>
+    </div>
+  </div>
+
+  <!-- HEADER BAR -->
+  <div id="header">
+    <div id="logo">Chi<span>Bot</span> Ultra Battle</div>
+    <div id="subtitle">◈ BATTLE IN PROGRESS ◈</div>
+    <div id="battle-status-bar">
+      <div>ARENA: <span id="arena-name">—</span></div>
+      <div>ROUND: <span id="round-num">1</span></div>
+      <div id="super-pips">
+        <span class="super-pip"></span>
+        <span class="super-pip"></span>
+        <span class="super-pip"></span>
+      </div>
+    </div>
+
+    <!-- MIDI PLAYER WIDGET -->
+    <div id="midi-player">
+      <div id="midi-display">
+        <span id="midi-label">♫ MIDI</span>
+        <span id="midi-track-name">— press play —</span>
+      </div>
+      <div id="midi-controls">
+        <button id="midi-play-btn"  class="midi-btn" title="Play">▶</button>
+        <button id="midi-pause-btn" class="midi-btn" title="Pause" style="display:none;">⏸</button>
+        <button id="midi-next-btn"  class="midi-btn" title="Next">⏭</button>
+        <input type="range" id="midi-volume" min="0" max="1" step="0.05" value="0.7" title="Volume" />
+      </div>
+    </div>
+  </div>
+
+  <!-- MAIN 3-COLUMN LAYOUT -->
+  <div id="app">
+
+    <!-- LEFT: Player + Allies -->
+    <div class="panel" id="left-panel">
+      <div class="panel-header" id="left-panel-header">◈ YOUR FIGHTER</div>
+      <div id="player-cards"></div>
+    </div>
+
+    <!-- CENTER: Chat log + input -->
+    <div id="center-col">
+      <div class="panel" id="chat-panel">
+        <div class="panel-header" style="display:flex;justify-content:space-between;align-items:center;">
+          <span>◈ BATTLE CHANNEL</span>
+          <span style="display:flex;gap:10px;align-items:center;">
+            <span style="font-size:0.6rem;color:var(--text2);">TARGET:</span>
+            <select id="target-select"></select>
+          </span>
+        </div>
+        <div id="chat-log"></div>
+      </div>
+      <div id="cmd-strip"></div>
+      <div id="chat-input-bar">
+        <span id="chat-input-prompt">◈ Send a command:</span>
+        <input type="text" id="chat-input"
+          placeholder="/ss  /fsoul  /rest  /block  /flee  /taunt  /help"
+          autocomplete="off" spellcheck="false" />
+        <button id="chat-send-btn">SEND</button>
+      </div>
+    </div>
+
+    <!-- RIGHT: Opponents + GIF panel -->
+    <div class="panel" id="right-panel">
+      <div class="panel-header">◈ OPPONENTS</div>
+      <div id="ai-cards"></div>
+      <div id="attack-gif-panel">
+        <div id="attack-gif-header">◈ ATTACK</div>
+        <img id="attack-gif-img" src="" alt="" />
+        <div id="attack-gif-move">—</div>
+      </div>
+    </div>
+
+  </div><!-- /#app -->
+</div><!-- /#battle-screen -->
+
+<script type="module" src="js/main.js"></script>
+</body>
+</html>
